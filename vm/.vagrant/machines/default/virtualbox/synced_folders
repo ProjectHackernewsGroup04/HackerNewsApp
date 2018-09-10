@@ -1,1 +1,0 @@
-{"virtualbox":{"/host_home":{"type":"virtualbox","guestpath":"/host_home","hostpath":"C:/Users/Andreas","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/Andreas/Desktop/New folder/HackerNewsApp/vm","disabled":false,"__vagrantfile":true}}}
