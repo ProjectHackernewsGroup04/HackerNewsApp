@@ -1,0 +1,63 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.synced_folder "~/", "/host_home", type: "virtualbox"
+  # For the webserver
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  # for mongoDB server
+  config.vm.network "forwarded_port", guest: 27017, host: 27017
+
+  # Deployment
+  # path/to/DigitalOcean
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "HackerNews2018"
+    vb.memory = "1024"
+    vb.cpus = "2"
+  end
+
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+      sudo apt-get update
+
+      sudo echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/environment
+      sudo locale-gen UTF-8
+
+      sudo apt-get install -y git
+      sudo apt-get install -y wget
+
+      # Docker
+      sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
+      sudo apt-get install -y docker-ce
+      sudo usermod -aG docker ${USER}
+      su - ${USER}
+      sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      sudo chmod +x /usr/local/bin/docker-compose
+
+      curl https://getmic.ro | sudo bash
+      sudo mv ./micro /usr/local/bin
+
+      # Python
+      echo "Installing Python..."
+      sudo apt-get install python-pip python-dev build-essential
+      sudo pip install virtualenv virtualenvwrapper
+      sudo pip install --upgrade pip
+
+      # Mongodb
+      echo "Installing MongoDB"
+      sudo apt-get -y install mongodb-server
+      sudo mkdir -p /data/db
+      sudo sed -i '/bind_ip = / s/127.0.0.1/0.0.0.0/' /etc/mongodb.conf
+      sudo service mongodb restart
+
+      echo "==================================================================="
+      echo "=                             DONE                                ="
+      echo "==================================================================="
+      echo "To log onto the VM:"
+      echo "$ vagrant ssh"
+    SHELL
+end
