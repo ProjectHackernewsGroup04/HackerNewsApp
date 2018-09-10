@@ -4,6 +4,9 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-16.04"
   config.vm.synced_folder "~/", "/host_home", type: "virtualbox"
+  config.vm.synced_folder "../../backend", "/backend"
+  config.vm.synced_folder "../../frontend", "/frontend"
+
   # For the webserver
   config.vm.network "forwarded_port", guest: 80, host: 8080
   # for mongoDB server
@@ -46,7 +49,9 @@ Vagrant.configure("2") do |config|
       sudo apt-get install python-pip python-dev build-essential
       sudo pip install virtualenv virtualenvwrapper
       sudo pip install --upgrade pip
-
+      sudo pip install flask
+      sudo pip install pymongo
+      
       # Mongodb
       echo "Installing MongoDB"
       sudo apt-get -y install mongodb-server
