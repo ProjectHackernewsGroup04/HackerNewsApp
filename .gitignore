@@ -124,3 +124,6 @@ buildNumber.properties
 .idea/
 
 nb-configuration.xml
+
+vm/.vagrant
+
