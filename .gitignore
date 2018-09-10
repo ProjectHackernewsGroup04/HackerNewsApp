@@ -119,3 +119,6 @@ nb-configuration.xml
 
 vm/.vagrant
 
+frontend/node_modules
+frontend/package-lock.json
+
