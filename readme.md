@@ -1,10 +1,7 @@
 <div >
   <uib-accordion>
     <uib-accordion-group heading="Getting the Seed" >
-      <ul>
-        <li>Create a project folder somewhere on your systems and clone the seed from here: <a href="https://github.com/Lars-m/semesterseedfall2016.git">https://github.com/Lars-m/semesterseedfall2016.git</a> </li>
-        <li>But since you are already looking at this page, you have probably already done this ;-)</li>
-      </ul>
+      
     </uib-accordion-group>
     <uib-accordion-group is-open="status.isFirstOpen" >
       <uib-accordion-heading>
