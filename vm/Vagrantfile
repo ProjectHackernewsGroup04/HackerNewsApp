@@ -48,11 +48,12 @@ Vagrant.configure("2") do |config|
 
       # Python
       echo "Installing Python..."
-      sudo apt-get install python3-pip
-      sudo pip3 install virtualenv virtualenvwrapper
-      sudo pip3 install --upgrade pip
-      sudo pip3 install flask
-      sudo pip3 install pymongo
+      sudo apt-get install pip
+      sudo apt-get install python3
+      sudo pip install virtualenv virtualenvwrapper
+      sudo pip install --upgrade pip
+      sudo pip install flask
+      sudo pip install pymongo
       
       # Mongodb
       echo "Installing MongoDB"
