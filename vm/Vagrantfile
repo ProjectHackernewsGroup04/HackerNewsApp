@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder frontend, "/frontend"
 
   # For the webserver
-  config.vm.network "forwarded_port", guest: 80, host: 9000
+  config.vm.network "forwarded_port", guest: 3000, host: 9000
   # for mongoDB server
   config.vm.network "forwarded_port", guest: 27017, host: 6000
 
