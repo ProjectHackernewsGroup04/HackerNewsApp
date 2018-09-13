@@ -4,13 +4,13 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-16.04"
   config.vm.synced_folder "~/", "/host_home", type: "virtualbox"
-  config.vm.synced_folder "../../backend", "/backend"
-  config.vm.synced_folder "../../frontend", "/frontend"
+  config.vm.synced_folder "../../Backend", "/backend"
+  config.vm.synced_folder "../../Frontend", "/frontend"
 
   # For the webserver
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 9000, host: 8080
   # for mongoDB server
-  config.vm.network "forwarded_port", guest: 27017, host: 27017
+  config.vm.network "forwarded_port", guest: 6000, host: 27017
 
   # Deployment
   # path/to/DigitalOcean
@@ -58,6 +58,10 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p /data/db
       sudo sed -i '/bind_ip = / s/127.0.0.1/0.0.0.0/' /etc/mongodb.conf
       sudo service mongodb restart
+
+      # Node.js
+      
+      # Nose.tools for testing Python
 
       echo "==================================================================="
       echo "=                             DONE                                ="
