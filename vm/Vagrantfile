@@ -25,6 +25,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
       sudo apt-get update
+      sudo apt-get upgrade -y
 
       sudo echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/environment
       sudo locale-gen UTF-8
@@ -36,7 +37,6 @@ Vagrant.configure("2") do |config|
       sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-      sudo apt-get update
       sudo apt-get install -y docker-ce
       sudo usermod -aG docker ${USER}
       su - ${USER}
@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
 
       # Python
       echo "Installing Python..."
-      sudo apt-get install python3-pip
+      sudo apt-get install -y python3-pip
       sudo pip3 install virtualenv virtualenvwrapper
       sudo pip3 install --upgrade pip
       sudo pip3 install flask
