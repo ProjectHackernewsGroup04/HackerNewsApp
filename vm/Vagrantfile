@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
 
       # Testing tools:
       # Nose.tools for testing Python
-      sudo pip3 install nose
+      sudo pip install nose
 
       echo "==================================================================="
       echo "=                             DONE                                ="
