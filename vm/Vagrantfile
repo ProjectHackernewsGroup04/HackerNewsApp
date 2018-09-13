@@ -3,16 +3,18 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-16.04"
-  config.vm.synced_folder "~/", "/host_home", type: "virtualbox"
+  #config.vm.synced_folder "~/", "/host_home", type: "virtualbox"
   backend = ENV['BACKEND'] || "../../Backend"
   frontend = ENV['FRONTEND'] || "../../Frontend"
-  config.vm.synced_folder backend, "/backend"
-  config.vm.synced_folder frontend, "/frontend"
+  config.vm.synced_folder "../../backend", "/app/backend"
+  config.vm.synced_folder "../", "/app"
+  config.vm.synced_folder "../../frontend", "/app/frontend"
 
   # For the webserver
   config.vm.network "forwarded_port", guest: 3000, host: 9000
+
   # for mongoDB server
-  config.vm.network "forwarded_port", guest: 27017, host: 6000
+  config.vm.network "forwarded_port", guest: 27017, host: 5000
 
   # Deployment
   # path/to/DigitalOcean
@@ -25,7 +27,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
       sudo apt-get update
-      sudo apt-get upgrade -y
 
       sudo echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/environment
       sudo locale-gen UTF-8
@@ -37,12 +38,12 @@ Vagrant.configure("2") do |config|
       sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
       sudo apt-get install -y docker-ce
       sudo usermod -aG docker ${USER}
       su - ${USER}
       sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
       sudo chmod +x /usr/local/bin/docker-compose
-
       curl https://getmic.ro | sudo bash
       sudo mv ./micro /usr/local/bin
 
@@ -54,18 +55,11 @@ Vagrant.configure("2") do |config|
       sudo pip3 install flask
       sudo pip3 install pymongo
       
-      # Mongodb
-      echo "Installing MongoDB"
-      sudo apt-get -y install mongodb-server
-      sudo mkdir -p /data/db
-      sudo sed -i '/bind_ip = / s/127.0.0.1/0.0.0.0/' /etc/mongodb.conf
-      sudo service mongodb restart
-
+      
       # Node.js
       curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
       curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
       sudo apt install nodejs
-
       # Testing tools:
       # Nose.tools for testing Python
       sudo pip3 install nose
@@ -73,7 +67,11 @@ Vagrant.configure("2") do |config|
       echo "==================================================================="
       echo "=                             DONE                                ="
       echo "==================================================================="
-      echo "To log onto the VM:"
-      echo "$ vagrant ssh"
+      echo "VAGRANT IS READY - FEEL FREE TO VAGRANT SSH "
+      echo " FOLLOW THESE STEPS TO GET THIS RUNNING :"
+      echo " CD TO APP DIRECTORY "
+      echo " docker-compose build "
+      echo " docker-compose up "
+      echo " PROFIT "
     SHELL
 end

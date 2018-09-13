@@ -20,6 +20,17 @@
 
 5. _Have FUN!_
 
+## Run docker 
+
+1. cd ..
+2. cd ..
+3. cd app/
+4. `docker-compose up --build`
+5. run new terminal and `vagrant ssh`
+6. test with new terminal `curl http://0.0.0.0:5000`
+7. test with new terminal `curl http://0.0.0.0:5000/api/v1/item/all`
+
+
 ### _Now inside vagrant..._
 
 To start up webservice
