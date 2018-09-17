@@ -1,4 +1,4 @@
-# Enviorement Setup
+# Environment Setup
 
 ## Vagrant
 
