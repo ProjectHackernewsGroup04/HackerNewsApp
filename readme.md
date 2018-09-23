@@ -22,10 +22,14 @@
 
 ## Run docker 
 
-1. cd ..
-2. cd ..
-3. cd app/
-4. `docker-compose up --build`
+1. Inside Vagrant vm
+
+```vagrant@vagrant:$ cd / ```
+
+```vagrant@vagrant:$ cd app/ ```
+
+```vagrant@vagrant:/app$ docker-compose up --build```
+
 5. run new terminal and `vagrant ssh`
 6. testing backend with the new terminal `curl http://0.0.0.0:5000`
 7. test backend and mongodb with the new terminal `curl http://0.0.0.0:5000/api/v1/item/all`
