@@ -47,22 +47,6 @@ Vagrant.configure("2") do |config|
       curl https://getmic.ro | sudo bash
       sudo mv ./micro /usr/local/bin
 
-      # Python
-      echo "Installing Python..."
-      sudo apt-get install -y python3-pip
-      sudo pip3 install virtualenv virtualenvwrapper
-      sudo pip3 install --upgrade pip
-      sudo pip3 install flask
-      sudo pip3 install pymongo
-      
-      
-      # Node.js
-      curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
-      curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
-      sudo apt install nodejs
-      # Testing tools:
-      # Nose.tools for testing Python
-      sudo pip3 install nose
 
       echo "==================================================================="
       echo "=                             DONE                                ="
