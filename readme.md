@@ -24,9 +24,8 @@
 
 1. Inside Vagrant vm
 
-```vagrant@vagrant:$ cd / ```
 
-```vagrant@vagrant:$ cd app/ ```
+```vagrant@vagrant:$ cd /app/ ```
 
 ```vagrant@vagrant:/app$ docker-compose up --build```
 
@@ -36,9 +35,9 @@ The `docker-compose.yaml` file collects all `dockerfile` from other reposetories
 ## Test if all containers runs
 
 2. Open new terminal and `vagrant ssh`
-3. Test backend with int the new terminal `curl http://0.0.0.0:5000`
-4. Test backend and mongodb in the new terminal `curl http://0.0.0.0:5000/api/v1/item/all`
-5. Test frontend in the new terminal `curl http://0.0.0.0:3000`
+3. Test backend `curl http://0.0.0.0:5000`
+4. Test backend and mongodb ex: `curl http://0.0.0.0:5000/api/item/all`
+5. Test frontend `curl http://0.0.0.0:3000`
 
 Go to http://localhost:9000/ to watch frontend in action
 
