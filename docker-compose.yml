@@ -1,5 +1,20 @@
-version: '3'
+version: '3.5'
 services:
+
+  frontend-app:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: npm start
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend-app
+      - /frontend-app/node_modules
+    links:
+      - db
+      - backend-app
+  
   backend-app:
     build: 
       context: ./backend
@@ -11,16 +26,10 @@ services:
       - ./backend:/app
     links:
       - db
+  
+  
   db:
     image: mongo
-  frontend-app:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    command: npm start
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/frontend-app
-      - /frontend-app/node_modules
   
+
+
