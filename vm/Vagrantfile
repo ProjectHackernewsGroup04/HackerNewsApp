@@ -6,15 +6,18 @@ Vagrant.configure("2") do |config|
   #config.vm.synced_folder "~/", "/host_home", type: "virtualbox"
   backend = ENV['BACKEND'] || "../../Backend"
   frontend = ENV['FRONTEND'] || "../../Frontend"
-  config.vm.synced_folder "../../backend", "/app/backend"
+  database = ENV['FRONTEND'] || "../../Database"
+  
+  config.vm.synced_folder "../../Backend", "/app/backend"
   config.vm.synced_folder "../", "/app"
-  config.vm.synced_folder "../../frontend", "/app/frontend"
+  config.vm.synced_folder "../../Frontend", "/app/frontend"
+  config.vm.synced_folder "../../Database", "/app/database"
 
   # For the webserver
   config.vm.network "forwarded_port", guest: 3000, host: 9000
 
   # for mongoDB server
-  config.vm.network "forwarded_port", guest: 27017, host: 5000
+  # config.vm.network "forwarded_port", guest: 27017, host: 5000
 
   # Deployment
   # path/to/DigitalOcean
