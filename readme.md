@@ -32,6 +32,10 @@
 The `docker-compose.yaml` file collects all `dockerfile` from other reposetories and runs them; sets ports and containers:
 1 for backend (backend-app), 1 for frontend (frontend-app), 1 for mongodb (db).
 
+## Importing testdata
+
+```vagrant@vagrant:/app$ sh /database/testdata/import.sh```
+
 ## Test if all containers runs
 
 2. Open new terminal and `vagrant ssh`
