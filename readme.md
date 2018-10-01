@@ -47,6 +47,8 @@ _Enjoy the HackerNews!_
 # CI/CD chain
 For CI/CD we're using [CircleCI](https://circleci.com/). 
 CircleCI allows us to version control the deployment process, as it uses simple yaml files to configure the workflow.
+There's a deployment process for the database, backend and frontend. The backend and frontend builds, tests and deploys the software, 
+while the database project just configures a MongoDB instance with Docker and runs it.
 
 The CI/CD workflow works like the following:
 
