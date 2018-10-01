@@ -47,5 +47,7 @@ _Enjoy the HackerNews!_
 # CI/CD chain
 For CI/CD we're using [CircleCI](https://circleci.com/). 
 CircleCI allows us to version control the deployment process, as it uses simple yaml files to configure the workflow.
-Our workflow looks something like the following:
-Code changes pushed to github -> CircleCI builds and tests -> Builds image and pushes to DockerHub -> Deploys on DO with newly build image from DockerHub
+
+The CI/CD workflow works like the following:
+
+![Deployment process](https://raw.githubusercontent.com/ProjectHackernewsGroup04/Ops/master/deployment-process.png)
