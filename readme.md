@@ -42,3 +42,10 @@ The `docker-compose.yaml` file collects all `dockerfile` from other reposetories
 Go to http://localhost:9000/ to watch frontend in action
 
 _Enjoy the HackerNews!_
+
+
+# CI/CD chain
+For CI/CD we're using [CircleCI](https://circleci.com/). 
+CircleCI allows us to version control the deployment process, as it uses simple yaml files to configure the workflow.
+Our workflow looks something like the following:
+Code changes pushed to github -> CircleCI builds and tests -> Builds image and pushes to DockerHub -> Deploys on DO with newly build image from DockerHub
