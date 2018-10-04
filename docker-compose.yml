@@ -33,6 +33,17 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./database/testdata:/testdata
-
-
+   
+  helge-api:
+    build: 
+      context: ./helge-api
+      dockerfile: Dockerfile
+    command: python -u app/api.py
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./helge-api:/app
+    links:
+      - backend-app
+    
 
