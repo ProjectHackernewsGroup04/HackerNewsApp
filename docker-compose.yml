@@ -45,5 +45,11 @@ services:
       - ./helge-api:/app
     links:
       - backend-app
-    
 
+  rabbitmq:
+    image: rabbitmq
+    ports:
+    - 5672
+    links:
+    - backend-app
+    - frontend-app
