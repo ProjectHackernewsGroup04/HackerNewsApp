@@ -26,6 +26,7 @@ services:
       - ./backend:/app
     links:
       - db
+      - rabbitmq
   
   db:
     build: 
