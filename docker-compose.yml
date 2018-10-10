@@ -26,7 +26,6 @@ services:
       - ./backend:/app
     links:
       - db
-      - rabbitmq
   
   db:
     build: 
@@ -46,4 +45,3 @@ services:
       - ./helge-api:/app
     links:
       - backend-app
-      - rabbitmq
