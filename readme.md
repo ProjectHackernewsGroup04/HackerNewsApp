@@ -34,7 +34,7 @@ The `docker-compose.yaml` file collects all `dockerfile` from other reposetories
 
 ## Importing testdata
 
-```vagrant@vagrant:/app$ sh /database/testdata/import.sh```
+```vagrant@vagrant:/app$ sh database/testdata/import.sh```
 
 ## Test if all containers runs
 
