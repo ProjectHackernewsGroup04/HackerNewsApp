@@ -29,8 +29,8 @@
 
 ```vagrant@vagrant:/app$ docker-compose up --build```
 
-The `docker-compose.yaml` file collects all `dockerfile` from other reposetories and runs them; sets ports and containers:
-1 for backend (backend-app), 1 for frontend (frontend-app), 1 for mongodb (db).
+The `docker-compose.yaml` file collects all `dockerfile` from other repostories and runs them; sets ports and containers:
+1 for backend (backend-app), 1 for frontend (frontend-app), 1 for mongodb (db) 1 for helge-api (helge-api).
 
 ## Importing testdata
 
