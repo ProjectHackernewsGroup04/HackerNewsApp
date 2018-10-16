@@ -12,6 +12,8 @@ services:
       - ./helge-api:/app
     links:
       - database  
+      - rabbitmq
+      
 
   frontend-app:
     build: 
@@ -37,7 +39,7 @@ services:
       - ./backend:/app
     links:
       - database
-  
+
   database:
     build: 
       context: ./database
@@ -45,7 +47,7 @@ services:
     volumes:
       - ./database/testdata:/testdata
 
-  #rabbitmq:
-  #  image: rabbitmq
-  #  ports:
-  #    - 5672
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672
