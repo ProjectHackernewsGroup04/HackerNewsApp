@@ -3,6 +3,8 @@ services:
 
   helge-api:
     image: hnclonecphb/http-api
+    environment:
+      - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/rabbitmq_vhost
     ports:
       - 5001:5001
     links:
@@ -24,12 +26,13 @@ services:
       - 5000:5000
     links:
       - database 
-      - rabbitmq
 
   database:
     image: hnclonecphb/database
 
   rabbitmq:
     image: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=rabbitmq_vhost
     ports:
       - 5672:5672
