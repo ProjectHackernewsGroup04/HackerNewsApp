@@ -1,47 +1,35 @@
 version: '3.5'
 services:
 
-  frontend-app:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    command: npm start
+  helge-api:
+    image: hnclonecphb/http-api
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/frontend-app
-      - /frontend-app/node_modules
+      - 5001:5001
+    links:
+      - backend-app
+      - database  
+      - rabbitmq
+
+  frontend-app:
+    image: hnclonecphb/frontend
+    ports:
+      - 3000:3000
     links:
       - database
       - backend-app
   
   backend-app:
-    build: 
-      context: ./backend
-      dockerfile: Dockerfile
-    command: python -u app/app.py
+    image: hnclonecphb/backend
     ports:
-      - "5000:5000"
-    volumes:
-      - ./backend:/app
+      - 5000:5000
     links:
-      - database
-  
+      - database 
+      - rabbitmq
+
   database:
-    build: 
-      context: ./database
-      dockerfile: Dockerfile
-    volumes:
-      - ./database/testdata:/testdata
-   
-  helge-api:
-    build: 
-      context: ./helge-api
-      dockerfile: Dockerfile
-    command: python -u app/api.py
+    image: hnclonecphb/database
+
+  rabbitmq:
+    image: rabbitmq
     ports:
-      - "5001:5001"
-    volumes:
-      - ./helge-api:/app
-    links:
-      - backend-app
+      - 5672:5672
