@@ -2,29 +2,29 @@ version: '3.5'
 services:
 
   helge-api:
-    image: hnclonecphb/http-api
+    image: hnclonecphb/http-api:master
     environment:
       - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/rabbitmq_vhost
     ports:
       - 5001:5001
     links:
-      - backend-app
+      - backend
       - database  
       - rabbitmq
     networks:
       - hackernews_ops
 
   frontend-app:
-    image: hnclonecphb/frontend
+    image: hnclonecphb/frontend:master
     ports:
       - 3000:3000
     links:
       - database
-      - backend-app
+      - backend
     networks:
       - hackernews_ops
   
-  backend-app:
+  backend:
     image: hnclonecphb/backend:master
     ports:
       - 5000:5000
@@ -34,7 +34,9 @@ services:
       - hackernews_ops
 
   database:
-    image: hnclonecphb/database
+    image: hnclonecphb/database:master
+    ports:
+      - 27017:27017
     networks:
       - hackernews_ops
 
