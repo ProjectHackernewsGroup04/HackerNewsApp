@@ -12,7 +12,6 @@ services:
       - ./frontend:/frontend-app
       - /frontend-app/node_modules
     links:
-      - database
       - backend-app
   
   backend-app:
@@ -39,9 +38,33 @@ services:
       context: ./helge-api
       dockerfile: Dockerfile
     command: python -u app/api.py
+    environment: 
+      - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/rabbitmq_vhost
+      - BACKEND_URL=http://backend-app:5000
     ports:
       - "5001:5001"
     volumes:
       - ./helge-api:/app
     links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+
+  rabbitmq-consumer:
+    build: 
+      context: ./rabbitmq
+      dockerfile: Dockerfile
+    command: python -u app/rabbitmq_consumer.py
+    volumes:
+      - ./rabbitmq:/app
+    links:
+      - rabbitmq
       - backend-app
+    depends_on:
+      - rabbitmq
+
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+    - "5672:5672"
