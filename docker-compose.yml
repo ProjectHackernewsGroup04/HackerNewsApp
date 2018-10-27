@@ -10,7 +10,9 @@ services:
       - 5001:5001
     links:
       - backend
-      - database  
+      - rabbitmq
+    depends_on:
+      - backend
       - rabbitmq
     networks:
       - hackernews_ops
@@ -47,12 +49,16 @@ services:
       - 5672:5672
     networks:
       - hackernews_ops
-
+   
   rabbitmq-consumer:
     image: hnclonecphb/rabbitmq-consumer:master
     environment:
       - rabbitmq=amqp://guest:guest@rabbitmq:5672/
     links:
+      - rabbitmq
+      - helge-api
+      - backend
+    depends_on:
       - rabbitmq
       - helge-api
     networks:
@@ -62,3 +68,4 @@ networks:
   hackernews_ops:
     name: hackernews_ops
     driver: bridge
+

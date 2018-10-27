@@ -56,3 +56,12 @@ There's a deployment process for the `database`, `backend` and `frontend`. The `
 The CI/CD workflow works like the following:
 
 ![Deployment process](https://raw.githubusercontent.com/ProjectHackernewsGroup04/Ops/master/deployment-process.jpg)
+
+### Deployment Sequence diagram
+
+![Deployment Sequence diagram](https://github.com/ProjectHackernewsGroup04/Documentation/blob/master/images/Deployment%20Sequence%20Diagram.jpg)
+
+### System Sequence diagram
+
+![System Sequence diagram](https://github.com/ProjectHackernewsGroup04/Documentation/blob/master/images/SSD.jpg)
+
