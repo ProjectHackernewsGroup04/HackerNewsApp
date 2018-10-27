@@ -41,11 +41,18 @@ services:
       - hackernews_ops
 
   rabbitmq:
-    image: rabbitmq
+    image: hnclonecphb/rabbitmq-docker:master
     environment:
       - RABBITMQ_DEFAULT_VHOST=rabbitmq_vhost
     ports:
       - 5672:5672
+    networks:
+      - hackernews_ops
+
+  rabbitmq-consumer:
+    image: hnclonecphb/rabbitmq-consumer:master
+    environment:
+      - rabbitmq=amqp://guest:guest@rabbitmq:5672/rabbitmq_vhost
     networks:
       - hackernews_ops
 
