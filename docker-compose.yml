@@ -5,6 +5,7 @@ services:
     image: hnclonecphb/http-api:master
     environment:
       - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/
+      - BACKEND_URL=http://backend:5000
     ports:
       - 5001:5001
     links:
@@ -53,6 +54,7 @@ services:
       - rabbitmq=amqp://guest:guest@rabbitmq:5672/
     links:
       - rabbitmq
+      - helge-api
     networks:
       - hackernews_ops
 
