@@ -4,7 +4,7 @@ services:
   helge-api:
     image: hnclonecphb/http-api:master
     environment:
-      - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/rabbitmq_vhost
+      - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/
     ports:
       - 5001:5001
     links:
@@ -42,8 +42,6 @@ services:
 
   rabbitmq:
     image: hnclonecphb/rabbitmq-docker:master
-    environment:
-      - RABBITMQ_DEFAULT_VHOST=rabbitmq_vhost
     ports:
       - 5672:5672
     networks:
@@ -52,7 +50,9 @@ services:
   rabbitmq-consumer:
     image: hnclonecphb/rabbitmq-consumer:master
     environment:
-      - rabbitmq=amqp://guest:guest@rabbitmq:5672/rabbitmq_vhost
+      - rabbitmq=amqp://guest:guest@rabbitmq:5672/
+    links:
+      - rabbitmq
     networks:
       - hackernews_ops
 
