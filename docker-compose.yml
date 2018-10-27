@@ -1,70 +1,71 @@
 version: '3.5'
 services:
 
-  frontend-app:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    command: npm start
+  helge-api:
+    image: hnclonecphb/http-api:master
+    environment:
+      - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/
+      - BACKEND_URL=http://backend:5000
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/frontend-app
-      - /frontend-app/node_modules
+      - 5001:5001
     links:
-      - backend-app
-  
-  backend-app:
-    build: 
-      context: ./backend
-      dockerfile: Dockerfile
-    command: python -u app/app.py
+      - backend
+      - rabbitmq
+    depends_on:
+      - backend
+      - rabbitmq
+    networks:
+      - hackernews_ops
+
+  frontend-app:
+    image: hnclonecphb/frontend:master
     ports:
-      - "5000:5000"
-    volumes:
-      - ./backend:/app
+      - 3000:3000
     links:
       - database
+      - backend
+    networks:
+      - hackernews_ops
   
-  database:
-    build: 
-      context: ./database
-      dockerfile: Dockerfile
-    volumes:
-      - ./database/testdata:/testdata
-   
-  helge-api:
-    build: 
-      context: ./helge-api
-      dockerfile: Dockerfile
-    command: python -u app/api.py
-    environment: 
-      - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/rabbitmq_vhost
-      - BACKEND_URL=http://backend-app:5000
+  backend:
+    image: hnclonecphb/backend:master
     ports:
-      - "5001:5001"
-    volumes:
-      - ./helge-api:/app
+      - 5000:5000
     links:
-      - rabbitmq
-    depends_on:
-      - rabbitmq
+      - database
+    networks:
+      - hackernews_ops
 
-  rabbitmq-consumer:
-    build: 
-      context: ./rabbitmq
-      dockerfile: Dockerfile
-    command: python -u app/rabbitmq_consumer.py
-    volumes:
-      - ./rabbitmq:/app
-    links:
-      - rabbitmq
-      - backend-app
-    depends_on:
-      - rabbitmq
-
+  database:
+    image: hnclonecphb/database:master
+    ports:
+      - 27017:27017
+    networks:
+      - hackernews_ops
 
   rabbitmq:
-    image: rabbitmq
+    image: hnclonecphb/rabbitmq-docker:master
     ports:
-    - "5672:5672"
+      - 5672:5672
+    networks:
+      - hackernews_ops
+   
+  rabbitmq-consumer:
+    image: hnclonecphb/rabbitmq-consumer:master
+    environment:
+      - rabbitmq=amqp://guest:guest@rabbitmq:5672/
+    links:
+      - rabbitmq
+      - helge-api
+      - backend
+    depends_on:
+      - rabbitmq
+      - helge-api
+    networks:
+      - hackernews_ops
+
+networks:
+  hackernews_ops:
+    name: hackernews_ops
+    driver: bridge
+
