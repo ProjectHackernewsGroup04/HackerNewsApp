@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   frontend = ENV['FRONTEND'] || "../../Frontend"
   database = ENV['DATABASE'] || "../../Database"
   helgeapi = ENV['HELGE-API'] || "../../Helge-api"
-  helgeapi = ENV['RABBITMQ'] || "../../Rabbitmq"
+  rabbitmq = ENV['RABBITMQ'] || "../../Rabbitmq"
   
   config.vm.synced_folder "../../Backend", "/app/backend"
   config.vm.synced_folder "../", "/app"
