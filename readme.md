@@ -1,5 +1,13 @@
 # Environment Setup
 
+IMPORTANT: The vagrant documentation is not up to date. We have moved everything to a docker-compose setup
+
+## Docker-compose setup
+1. Make sure you have docker on your machine
+2. Clone this project
+3. `cd` into the cloned project
+4. Write `docker-compose up -d` to run the entire system. this starts up a rabbitmq instance, two http-api applications, one to accept `student_tester.py` requests (helge-api) and one for the frontend to use (backend), a frontend project and a consumer for the rabbitmq
+
 ## Vagrant
 
 1. Clone project
@@ -32,11 +40,11 @@
 The `docker-compose.yaml` file collects all `dockerfile` from other reposetories and runs them; sets ports and containers:
 1 for backend (backend-app), 1 for frontend (frontend-app), 1 for mongodb (db).
 
-## Importing testdata
+### Importing testdata
 
 ```vagrant@vagrant:/app$ sh database/testdata/import.sh```
 
-## Test if all containers runs
+### Test if all containers runs
 
 2. Open new terminal and `vagrant ssh`
 3. Test backend `curl http://0.0.0.0:5000`
