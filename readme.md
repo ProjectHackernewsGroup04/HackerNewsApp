@@ -28,7 +28,7 @@ IMPORTANT: The vagrant documentation is not up to date. We have moved everything
 
 5. _Have FUN!_
 
-## Run docker 
+### Run docker 
 
 1. Inside Vagrant vm
 
@@ -73,3 +73,30 @@ The CI/CD workflow works like the following:
 
 ![System Sequence diagram](https://github.com/ProjectHackernewsGroup04/Documentation/blob/master/images/SSD.jpg)
 
+
+# Operators guideline
+## Server access
+There is a guest user on the server that has access only to specific docker commands. The docker commands available is listed below.
+
+The server can be accesses through SSH at the IP address: `46.101.43.21`
+
+## Docker operations
+This section is docker specific operation guidelines. 
+
+### Allowed operations
+- `docker start <container-name>`
+- `docker logs -f <container-name>`
+### How to operate
+On the server there are multiple docker containers running:
+- `backend`
+- `frontend`
+- `http-api`
+- `rabbitmq`
+- `rabbitmq-consumer`
+- `database`
+
+The names are pretty selfexplanatory if you've read the above documentation. 
+
+It's important all containers are up and running at all times. If one of them is down or something is wrong, you can check the logs by running `docker logs -f <container-name>`. This will output and follow the logs from that container. 
+
+If a docker container is not running, you can start it with `docker start <container-name>`
