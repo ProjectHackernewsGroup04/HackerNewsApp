@@ -76,14 +76,14 @@ The CI/CD workflow works like the following:
 
 # Operators guideline
 ## Server access
-There is a guest user on the server that has access only to specific docker commands. The docker commands available is listed below.
+There is a guest user on the server that has access only to docker commands.
 
-The server can be accesses through SSH at the IP address: `46.101.43.21`
+The server can be accesses through SSH at the IP address: `46.101.43.21`. User and private key can be handed over upon request.
 
 ## Docker operations
 This section is docker specific operation guidelines. 
 
-### Allowed operations
+### Important operations
 - `docker start <container-name>`
 - `docker logs -f <container-name>`
 ### How to operate
