@@ -9,6 +9,8 @@ Vagrant.configure("2") do |config|
   database = ENV['DATABASE'] || "../../Database"
   helgeapi = ENV['HELGE-API'] || "../../Helge-api"
   rabbitmq = ENV['RABBITMQ'] || "../../Rabbitmq"
+  monitoring = ENV['MONITORING'] || "../../monitoring"
+  logging = ENV['LOGGING'] || "../../logging"
   
   config.vm.synced_folder "../../Backend", "/app/backend"
   config.vm.synced_folder "../", "/app"
@@ -16,9 +18,14 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "../../Database", "/app/database"
   config.vm.synced_folder "../../Helge-api", "/app/helge-api"
   config.vm.synced_folder "../../Rabbitmq", "/app/rabbitmq"
+  config.vm.synced_folder "../../Logging", "/app/logging"
+
 
   # For the webserver
   config.vm.network "forwarded_port", guest: 3000, host: 9000
+
+   # For the ELK
+  config.vm.network "forwarded_port", guest: 5601, host: 5601
 
   # for mongoDB server
   # config.vm.network "forwarded_port", guest: 27017, host: 5000
