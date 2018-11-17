@@ -35,6 +35,7 @@ services:
       - database
     networks:
       - hackernews_ops
+      - elk
 
   database:
     image: hnclonecphb/database:master
@@ -68,4 +69,5 @@ networks:
   hackernews_ops:
     name: hackernews_ops
     driver: bridge
-
+  elk:
+    external: true
