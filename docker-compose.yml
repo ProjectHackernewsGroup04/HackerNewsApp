@@ -8,9 +8,6 @@ services:
       - BACKEND_URL=http://backend:5000
     ports:
       - 5001:5001
-    links:
-      - backend
-      - rabbitmq
     depends_on:
       - backend
       - rabbitmq
@@ -21,9 +18,6 @@ services:
     image: hnclonecphb/frontend:master
     ports:
       - 3000:3000
-    links:
-      - database
-      - backend
     networks:
       - hackernews_ops
   
@@ -31,8 +25,6 @@ services:
     image: hnclonecphb/backend:master
     ports:
       - 5000:5000
-    links:
-      - database
     networks:
       - hackernews_ops
       - elk
@@ -55,10 +47,6 @@ services:
     image: hnclonecphb/rabbitmq-consumer:master
     environment:
       - rabbitmq=amqp://guest:guest@rabbitmq:5672/
-    links:
-      - rabbitmq
-      - helge-api
-      - backend
     depends_on:
       - rabbitmq
       - helge-api
@@ -70,4 +58,5 @@ networks:
     name: hackernews_ops
     driver: bridge
   elk:
-    external: true
+    name: elk
+    driver: bridge
