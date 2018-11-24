@@ -1,62 +1,154 @@
 version: '3.5'
 services:
 
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - overlay
+
   helge-api:
     image: hnclonecphb/http-api:master
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     environment:
       - CLOUDAMQP_URL=amqp://guest:guest@rabbitmq:5672/
       - BACKEND_URL=http://backend:5000
     ports:
       - 5001:5001
+    links:
+      - backend
+      - rabbitmq
     depends_on:
       - backend
       - rabbitmq
     networks:
-      - hackernews_ops
+      - overlay
 
   frontend-app:
     image: hnclonecphb/frontend:master
     ports:
       - 3000:3000
+    links:
+      - database
+      - backend
     networks:
-      - hackernews_ops
+      - overlay
   
   backend:
     image: hnclonecphb/backend:master
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     ports:
       - 5000:5000
+    links:
+      - database
     networks:
-      - hackernews_ops
-      - elk
+      - overlay
 
   database:
     image: hnclonecphb/database:master
     ports:
       - 27017:27017
     networks:
-      - hackernews_ops
+      - overlay
 
   rabbitmq:
     image: hnclonecphb/rabbitmq-docker:master
+    deploy:
+      replicas: 3 5
+      restart_policy:
+        condition: on-failure
     ports:
       - 5672:5672
     networks:
-      - hackernews_ops
+      - overlay
    
   rabbitmq-consumer:
     image: hnclonecphb/rabbitmq-consumer:master
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     environment:
       - rabbitmq=amqp://guest:guest@rabbitmq:5672/
+    links:
+      - rabbitmq
+      - helge-api
+      - backend
     depends_on:
       - rabbitmq
       - helge-api
     networks:
-      - hackernews_ops
+      - overlay
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.4.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    configs:
+      - source: elastic_config
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash-oss:6.4.0
+    ports:
+      - "5005:5005"
+      - "9600:9600"
+    configs:
+      - source: logstash_config
+        target: /usr/share/logstash/config/logstash.yml
+      - source: logstash_pipeline
+        target: /usr/share/logstash/pipeline/logstash.conf
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:6.4.0
+    ports:
+      - "5601:5601"
+    configs:
+      - source: kibana_config
+        target: /usr/share/kibana/config/kibana.yml
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+
+configs:
+
+  elastic_config:
+    file: ./logging/elasticsearch/config/elasticsearch.yml
+  logstash_config:
+    file: ./logging/logstash/config/logstash.yml
+  logstash_pipeline:
+    file: ./logging/logstash/pipeline/logstash.conf
+  kibana_config:
+    file: ./logging/kibana/config/kibana.yml
 
 networks:
-  hackernews_ops:
-    name: hackernews_ops
-    driver: bridge
-  elk:
-    name: elk
-    driver: bridge
+  overlay:

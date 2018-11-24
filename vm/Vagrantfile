@@ -28,6 +28,9 @@ Vagrant.configure("2") do |config|
    # For the ELK
   config.vm.network "forwarded_port", guest: 5601, host: 5601
 
+   # For the Stackvisualizer
+  config.vm.network "forwarded_port", guest: 8080, host: 2001
+
   # for mongoDB server
   # config.vm.network "forwarded_port", guest: 27017, host: 5000
 
@@ -35,8 +38,8 @@ Vagrant.configure("2") do |config|
   # path/to/DigitalOcean
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "HackerNews2018"
-    vb.memory = "1024"
+    vb.name = "HackerNews20182"
+    vb.memory = "2024"
     vb.cpus = "2"
   end
 
